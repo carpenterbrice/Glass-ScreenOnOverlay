@@ -18,7 +18,9 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 /**
  * Created by Van Etten on 12/8/13.
@@ -87,9 +89,30 @@ public class OverlayService extends Service {
         };
     }
 
+    public String getDateSuffix( int day) {
+        switch (day) {
+            case 1: case 21: case 31:
+                return ("st");
+
+            case 2: case 22:
+                return ("nd");
+
+            case 3: case 23:
+                return ("rd");
+
+            default:
+                return ("th");
+        }
+    }
+
     private void showThenHide(Context context) {
         Calendar cal = Calendar.getInstance();
-        dateView.setText(DateUtils.formatDateTime(context, cal.getTimeInMillis(), DateUtils.FORMAT_SHOW_WEEKDAY | DateUtils.FORMAT_SHOW_DATE));
+        //dateView.setText(DateUtils.formatDateTime(context, cal.getTimeInMillis(), DateUtils.FORMAT_SHOW_WEEKDAY | DateUtils.FORMAT_SHOW_DATE));
+        final int date = cal.get(Calendar.DATE) % 10;
+        StringBuilder dateText = new StringBuilder(new SimpleDateFormat("EEEE").format(new Date(cal.getTimeInMillis())));
+        dateText.append(", ").append(new SimpleDateFormat("dd").format(new Date(cal.getTimeInMillis()))).append(getDateSuffix(date));
+        dateText.append(" ").append(new SimpleDateFormat("MMM").format(new Date(cal.getTimeInMillis())));
+        dateView.setText(dateText.toString());
 
         Intent batteryIntent = context.getApplicationContext().registerReceiver(null, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
         double level = batteryIntent.getIntExtra("level", -1);
