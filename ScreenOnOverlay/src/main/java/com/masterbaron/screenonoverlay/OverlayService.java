@@ -61,6 +61,8 @@ public class OverlayService extends Service {
 
         IntentFilter filter = new IntentFilter(Intent.ACTION_SCREEN_ON);
         registerReceiver(screenReceiver = getScreenReceiver(), filter);
+
+        showThenHide(this);
     }
 
     @Override
@@ -80,22 +82,26 @@ public class OverlayService extends Service {
             @Override
             public void onReceive(Context context, Intent intent) {
                 Log.d(TAG, "BroadcastReceiver.onReceive(ACTION_SCREEN_ON)");
-                Calendar cal = Calendar.getInstance();
-                dateView.setText(DateUtils.formatDateTime(context, cal.getTimeInMillis(), DateUtils.FORMAT_SHOW_WEEKDAY | DateUtils.FORMAT_SHOW_DATE));
-
-                Intent batteryIntent = context.getApplicationContext().registerReceiver(null, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
-                double level = batteryIntent.getIntExtra("level", -1);
-                double scale = batteryIntent.getIntExtra("scale", -1);
-                int vol = 0;
-                if (level > 0 && scale > 0) {
-                    vol = (int)(level / scale * 100);
-                }
-                batteryView.setText( context.getString(R.string.battery, vol));
-
-                showOverlay();
-                detailsView.startAnimation(animation);
+                showThenHide(context);
             }
         };
+    }
+
+    private void showThenHide(Context context) {
+        Calendar cal = Calendar.getInstance();
+        dateView.setText(DateUtils.formatDateTime(context, cal.getTimeInMillis(), DateUtils.FORMAT_SHOW_WEEKDAY | DateUtils.FORMAT_SHOW_DATE));
+
+        Intent batteryIntent = context.getApplicationContext().registerReceiver(null, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
+        double level = batteryIntent.getIntExtra("level", -1);
+        double scale = batteryIntent.getIntExtra("scale", -1);
+        int vol = 0;
+        if (level > 0 && scale > 0) {
+            vol = (int)(level / scale * 100);
+        }
+        batteryView.setText( context.getString(R.string.battery, vol));
+
+        showOverlay();
+        detailsView.startAnimation(animation);
     }
 
     private Animation getAnimator() {
@@ -118,6 +124,13 @@ public class OverlayService extends Service {
         });
 
         return upAndOut;
+    }
+
+    public static class BootReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            context.startService(new Intent(context, OverlayService.class));
+        }
     }
 
     private void hideOverlay() {
