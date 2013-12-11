@@ -108,7 +108,7 @@ public class OverlayService extends Service {
     private void showThenHide(Context context) {
         Calendar cal = Calendar.getInstance();
         //dateView.setText(DateUtils.formatDateTime(context, cal.getTimeInMillis(), DateUtils.FORMAT_SHOW_WEEKDAY | DateUtils.FORMAT_SHOW_DATE));
-        final int date = cal.get(Calendar.DATE) % 10;
+        final int date = cal.get(Calendar.DATE);
         StringBuilder dateText = new StringBuilder(new SimpleDateFormat("EEEE").format(new Date(cal.getTimeInMillis())));
         dateText.append(", ").append(new SimpleDateFormat("dd").format(new Date(cal.getTimeInMillis()))).append(getDateSuffix(date));
         dateText.append(" ").append(new SimpleDateFormat("MMM").format(new Date(cal.getTimeInMillis())));
