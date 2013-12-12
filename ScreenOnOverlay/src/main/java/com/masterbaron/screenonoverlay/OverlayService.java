@@ -8,7 +8,6 @@ import android.content.IntentFilter;
 import android.graphics.Color;
 import android.graphics.PixelFormat;
 import android.os.IBinder;
-import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -26,6 +25,9 @@ import java.util.Date;
  * Created by Van Etten on 12/8/13.
  */
 public class OverlayService extends Service {
+    public static final SimpleDateFormat DayOfWeekFormat = new SimpleDateFormat("EEEE");
+    public static final SimpleDateFormat DayOfMonthFormat = new SimpleDateFormat("dd");
+    public static final SimpleDateFormat MonthFormat = new SimpleDateFormat("MMM");
     String TAG = ConfigActivity.class.getSimpleName();
 
     private WindowManager windowManager;
@@ -107,11 +109,10 @@ public class OverlayService extends Service {
 
     private void showThenHide(Context context) {
         Calendar cal = Calendar.getInstance();
-        //dateView.setText(DateUtils.formatDateTime(context, cal.getTimeInMillis(), DateUtils.FORMAT_SHOW_WEEKDAY | DateUtils.FORMAT_SHOW_DATE));
-        final int date = cal.get(Calendar.DATE);
-        StringBuilder dateText = new StringBuilder(new SimpleDateFormat("EEEE").format(new Date(cal.getTimeInMillis())));
-        dateText.append(", ").append(new SimpleDateFormat("dd").format(new Date(cal.getTimeInMillis()))).append(getDateSuffix(date));
-        dateText.append(" ").append(new SimpleDateFormat("MMM").format(new Date(cal.getTimeInMillis())));
+        Date nowDate = new Date(cal.getTimeInMillis());
+        StringBuilder dateText = new StringBuilder(DayOfWeekFormat.format(nowDate));
+        dateText.append(", ").append(DayOfMonthFormat.format(nowDate)).append(getDateSuffix(cal.get(Calendar.DATE)));
+        dateText.append(" ").append(MonthFormat.format(nowDate));
         dateView.setText(dateText.toString());
 
         Intent batteryIntent = context.getApplicationContext().registerReceiver(null, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
