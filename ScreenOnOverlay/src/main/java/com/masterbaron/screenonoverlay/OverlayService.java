@@ -26,7 +26,7 @@ import java.util.Date;
  */
 public class OverlayService extends Service {
     public static final SimpleDateFormat DayOfWeekFormat = new SimpleDateFormat("EEEE");
-    public static final SimpleDateFormat DayOfMonthFormat = new SimpleDateFormat("dd");
+    public static final SimpleDateFormat DayOfMonthFormat = new SimpleDateFormat("d");
     public static final SimpleDateFormat MonthFormat = new SimpleDateFormat("MMM");
     String TAG = ConfigActivity.class.getSimpleName();
 
