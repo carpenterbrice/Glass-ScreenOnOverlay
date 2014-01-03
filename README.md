@@ -7,6 +7,7 @@ Briefly show date and battery level when screen comes on. After one second, the 
 
 Change Log:
 ===========
+* 1.1.2 Removed leading 0 on day
 * 1.1.1 Fixed 11st, 12nd, 13rd
 * 1.1.0 Bigger font and day of neek next to day of month
 * 1.0.1 Fixed to make it start on boot
