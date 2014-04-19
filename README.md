@@ -16,7 +16,7 @@ Change Log:
 
 Intall Instructions
 ===================
-1. Download and install the APK [here](https://github.com/TheMasterBaron/Glass-ScreenOnOverlay/raw/master/ScreenOnOverlay-debug-unaligned.apk)
+1. Download and install the APK [here](https://github.com/TheMasterBaron/Glass-ScreenOnOverlay/releases)
 
 2. Intall the APK
 <code>adb install -r ScreenOnOverlay-debug-unaligned.apk</code>
