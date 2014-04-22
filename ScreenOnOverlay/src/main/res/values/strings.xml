@@ -4,7 +4,7 @@
     <string name="app_name">ScreenOnOverlay</string>
     <string name="title_activity_config">ScreenOnOverlay</string>
 
-    <string name="show_before_hide">1000</string>
+    <string name="show_before_hide">4000</string>
     <string name="battery">%1$d%%</string>
 
 </resources>
